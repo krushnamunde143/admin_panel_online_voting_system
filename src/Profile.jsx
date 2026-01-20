@@ -28,7 +28,7 @@ const AdminProfile = () => {
       const stream = await navigator.mediaDevices.getUserMedia({ video: true });
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
-        setTimeout(() => captureFace(), 3000);
+        setTimeout(() => captureFace(), 10000);
       }
     } catch (error) {
       alert("Please allow camera permissions to mark attendance.");
