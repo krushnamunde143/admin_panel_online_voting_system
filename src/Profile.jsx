@@ -5,10 +5,13 @@ const AdminProfile = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [captured, setCaptured] = useState(false);
   const [imageSrc, setImageSrc] = useState(null);
+
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
 
-  // Start Camera Automatically when Popup Opens
+  /* ============================= */
+  /* Camera Auto Start / Stop */
+  /* ============================= */
   useEffect(() => {
     if (showPopup) {
       startCamera();
@@ -17,13 +20,14 @@ const AdminProfile = () => {
     }
   }, [showPopup]);
 
-  // Start Camera
+  /* ============================= */
+  /* Start Camera */
+  /* ============================= */
   const startCamera = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ video: true });
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
-        // Start auto capture after 3 seconds
         setTimeout(() => captureFace(), 3000);
       }
     } catch (error) {
@@ -31,30 +35,76 @@ const AdminProfile = () => {
     }
   };
 
-  // Capture Face Automatically
-  const captureFace = () => {
+  /* ============================= */
+  /* FACE VERIFICATION API PLACEHOLDER */
+  /* ============================= */
+  const verifyFaceWithAPI = async (base64Image) => {
+    try {
+      /*
+        🔗 FUTURE API INTEGRATION
+
+        const response = await fetch("https://your-api.com/verify-face", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer YOUR_TOKEN"
+          },
+          body: JSON.stringify({
+            image: base64Image,
+            adminId: "ADMIN_001"
+          })
+        });
+
+        const data = await response.json();
+        return data.isFaceMatched;
+      */
+
+      // ⚠️ TEMP MOCK (remove when real API comes)
+      return true;
+
+    } catch (error) {
+      console.error("Face verification failed", error);
+      return false;
+    }
+  };
+
+  /* ============================= */
+  /* Capture Face + Verify */
+  /* ============================= */
+  const captureFace = async () => {
     const canvas = canvasRef.current;
     const video = videoRef.current;
-    if (!canvas || !video) return;
+
+    if (!canvas || !video || video.videoWidth === 0) return;
 
     const context = canvas.getContext("2d");
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
     context.drawImage(video, 0, 0, canvas.width, canvas.height);
-    const imageData = canvas.toDataURL("image/png");
 
+    const imageData = canvas.toDataURL("image/png");
     setCaptured(true);
     setImageSrc(imageData);
-    setIsAttended(true);
 
-    stopCamera();
-    setTimeout(() => {
-      setShowPopup(false);
-      alert("✅ Attendance marked successfully!");
-    }, 1500);
+    // 🔐 VERIFY FACE USING API
+    const isFaceValid = await verifyFaceWithAPI(imageData);
+
+    if (isFaceValid) {
+      setIsAttended(true);
+      stopCamera();
+      setTimeout(() => {
+        setShowPopup(false);
+        alert("✅ Attendance marked successfully!");
+      }, 1500);
+    } else {
+      alert("❌ Face not recognized. Attendance not marked.");
+      setCaptured(false);
+    }
   };
 
-  // Stop Camera
+  /* ============================= */
+  /* Stop Camera */
+  /* ============================= */
   const stopCamera = () => {
     const stream = videoRef.current?.srcObject;
     if (stream) {
@@ -63,7 +113,9 @@ const AdminProfile = () => {
     if (videoRef.current) videoRef.current.srcObject = null;
   };
 
-  // Handle Logout
+  /* ============================= */
+  /* Logout */
+  /* ============================= */
   const handleLogout = () => {
     alert("You have logged out successfully for the day.");
     setIsAttended(false);
@@ -93,10 +145,12 @@ const AdminProfile = () => {
             <label>Name</label>
             <span>Rajesh Verma</span>
           </div>
+
           <div className="profile-field">
             <label>Email</label>
             <span>rajesh.verma@eci.gov.in</span>
           </div>
+
           <div className="profile-field">
             <label>Office Location</label>
             <span>Delhi, India</span>
@@ -120,7 +174,9 @@ const AdminProfile = () => {
           </div>
 
           {isAttended && (
-            <p className="attendance-status">✅ Attendance marked for today</p>
+            <p className="attendance-status">
+              ✅ Attendance marked for today
+            </p>
           )}
         </div>
       </div>
@@ -130,6 +186,7 @@ const AdminProfile = () => {
         <div className="attendance-popup">
           <div className="popup-content">
             <h2>Live Face Attendance</h2>
+
             <div
               className={`camera-container ${
                 captured ? "camera-success" : "camera-active"
@@ -143,11 +200,13 @@ const AdminProfile = () => {
               ></video>
               <canvas ref={canvasRef} style={{ display: "none" }}></canvas>
             </div>
+
             <p className="camera-hint">
               {captured
                 ? "✅ Face captured successfully!"
                 : "📸 Please look directly into the camera..."}
             </p>
+
             <button
               className="reject-btn"
               onClick={() => {
