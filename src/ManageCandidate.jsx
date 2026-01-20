@@ -83,7 +83,7 @@ const ManageCandidate = () => {
             <thead>
               <tr>
                 <th>#</th>
-                <th>Name</th>
+                <th>Name of Candidate</th>
                 <th>Party</th>
                 <th>Constituency</th>
                 <th>Symbol</th>
