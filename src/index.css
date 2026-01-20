@@ -1248,3 +1248,150 @@ button:hover,
 }
 
 
+/* ================================================= */
+/* 📱 MOBILE & TABLET RESPONSIVE (ONLY ADD) */
+/* ================================================= */
+
+@media (max-width: 1024px) {
+  .services {
+    justify-content: center;
+  }
+
+  .service-card {
+    width: 45%;
+  }
+}
+
+@media (max-width: 768px) {
+
+  body {
+    overflow-x: hidden;
+  }
+
+  /* Containers */
+  .page-content,
+  .home-container,
+  .manage-candidate-container,
+  .manage-election-container,
+  .manage-voter-container,
+  .manage-result-container,
+  .profile-container {
+    padding: 20px 12px;
+  }
+
+  /* Navbar */
+  .navbar {
+    position: relative;
+    width: 100%;
+    margin: 0;
+    border-radius: 0;
+  }
+
+  .nav-list {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .nav-item {
+    width: 100%;
+    text-align: center;
+  }
+
+  /* Cards */
+  .services {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .service-card {
+    width: 100%;
+  }
+
+  /* Tables */
+  .candidate-table,
+  .election-table,
+  .voter-table,
+  .result-table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .candidate-table th,
+  .candidate-table td,
+  .election-table th,
+  .election-table td,
+  .voter-table th,
+  .voter-table td,
+  .result-table th,
+  .result-table td {
+    font-size: 13px;
+    padding: 10px;
+  }
+
+  /* Buttons */
+  .action-buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .action-buttons button {
+    width: 100%;
+  }
+
+  /* Forms */
+  .election-form {
+    grid-template-columns: 1fr;
+  }
+
+  /* Profile */
+  .profile-card {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .profile-actions {
+    flex-direction: column;
+  }
+
+  .profile-actions button {
+    width: 100%;
+  }
+
+  /* Camera / Attendance */
+  .popup-content {
+    width: 90%;
+  }
+
+  .camera-container {
+    width: 220px;
+    height: 220px;
+  }
+
+  .camera-feed {
+    width: 100%;
+    height: 100%;
+  }
+
+  .captured-image img {
+    width: 100%;
+    height: auto;
+  }
+}
+
+@media (max-width: 480px) {
+
+  h1 {
+    font-size: 1.4rem;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+  }
+
+  button {
+    font-size: 0.85rem;
+    padding: 10px;
+  }
+}
